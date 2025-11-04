@@ -13,7 +13,12 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <script type="module" src="script.js"></script>
+
     <style>
       body {
         font-family: "Inter", sans-serif;
@@ -341,50 +346,120 @@
           padding: 6px 0;
         }
       }
+      /* REPLACED: product-showcase layout — image and text side-by-side */
       .product-showcase {
+        max-width: 1100px;
+        margin: 20px auto;
+        border-radius: 12px;
+        overflow: hidden;
         display: flex;
-        align-items: center;
-        justify-content: center;
         gap: 20px;
-        padding: 20px;
-        flex-wrap: wrap; /* allows stacking on small screens */
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px;
+        background: #ffffff; /* card background so image is not overlaying text */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        box-sizing: border-box;
       }
 
+      /* make hero image smaller so it doesn't take the whole page */
       .perfume-image {
-        max-width: 300px;
-        width: 100%;
+        width: 38%; /* reduce from ~48% */
+        max-width: 380px; /* cap the image size */
         height: auto;
+        border-radius: 10px;
+        object-fit: cover;
         display: block;
-        margin: 0 auto;
+        flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
       }
+
+      /* keep scent text area flexible beside the smaller image */
       .scent-description {
-        max-width: 400px;
-        font-family: "Arial", sans-serif;
+        width: calc(62% - 20px);
+        color: #222;
+        padding: 8px 12px;
         text-align: left;
+        background: transparent;
+        border-radius: 8px;
       }
 
-      button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #000;
-        color: #fff;
-        border: none;
-        cursor: pointer;
+      /* three small images: consistent small size and spacing */
+      .three-images-row {
+        max-width: 900px; /* slightly narrower container */
+        margin: 12px auto 18px;
+        padding: 0 12px;
+        box-sizing: border-box;
       }
-      @media (max-width: 600px) {
-        .product-showcase {
-          flex-direction: column;
-          text-align: center;
+
+      .three-images {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+        justify-content: center;
+        flex-wrap: nowrap;
+      }
+
+      .three-images img {
+        flex: 0 1 calc(33.333% - 8px);
+        max-width: calc(33.333% - 8px);
+        width: 100%;
+        height: 90px; /* smaller uniform height */
+        object-fit: cover; /* crop to fill small box */
+        border-radius: 8px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+        display: block;
+        background: #fff;
+      }
+
+      /* featured product thumbnails smaller */
+      .fragrance-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(200px, 1fr)
+        ); /* smaller columns */
+        gap: 12px;
+        padding: 12px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .fragrance img {
+        max-width: 100%;
+        height: 140px; /* smaller thumbnail height */
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 900px) {
+        .perfume-image,
+        .scent-description {
+          width: 100%;
         }
-
         .scent-description {
           text-align: center;
         }
+        .three-images img {
+          height: 80px;
+        }
+        .fragrance img {
+          height: 120px;
+        }
       }
-      body {
-        background: linear-gradient(-45deg, #fbeffb, #f0f8ff, #fff0f5, #e6e6fa);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+
+      @media (max-width: 480px) {
+        .three-images {
+          flex-direction: column;
+        }
+        .three-images img {
+          width: 100%;
+          height: 140px;
+        }
+        .fragrance img {
+          height: 160px;
+        }
       }
 
       @keyframes gradientShift {
@@ -397,16 +472,6 @@
         100% {
           background-position: 0% 50%;
         }
-      }
-      #bg-video {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        z-index: -1;
-        object-fit: cover;
-        opacity: 0.3; /* softens the video */
       }
       .add-to-cart.clicked {
         background-color: #e65c50;
@@ -488,165 +553,403 @@
           padding: 4px;
         }
       }
+
+      /* Dropdown styles */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      /* Row of three adjacent images (placed above Featured Fragrances) */
+      .three-images-row {
+        max-width: 1100px;
+        margin: 18px auto;
+        padding: 0 12px;
+        box-sizing: border-box;
+      }
+
+      .three-images {
+        display: flex;
+        gap: 12px;
+        align-items: stretch;
+        justify-content: center;
+        flex-wrap: nowrap; /* keep a single row on wide screens */
+      }
+
+      /* Make images full (not cropped) and responsive */
+      .three-images img {
+        flex: 0 1 calc(33.333% - 8px);
+        max-width: calc(33.333% - 8px);
+        width: 100%;
+        height: auto; /* show full image, keep aspect ratio */
+        object-fit: contain; /* ensure entire image is visible */
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        display: block;
+        background: #fff; /* small backdrop if image has transparency */
+      }
+
+      @media (max-width: 900px) {
+        .three-images img {
+          flex: 0 1 calc(50% - 6px);
+          max-width: calc(50% - 6px);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .three-images {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .three-images img {
+          width: 100%;
+          max-width: 100%;
+          flex: none;
+        }
+      }
+
+      /* Layout: left sidebar + main content */
+      .site-layout {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 20px;
+        padding: 0 20px 40px;
+        box-sizing: border-box;
+      }
+
+      .sidebar {
+        background: #fff;
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        height: fit-content;
+      }
+
+      .sidebar h4 {
+        margin: 0 0 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.05rem;
+        color: #333;
+      }
+
+      .product-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .product-list a {
+        display: block;
+        padding: 10px;
+        border-radius: 8px;
+        color: #333;
+        text-decoration: none;
+        background: linear-gradient(180deg, #ffffff, #fbfbfb);
+        border: 1px solid #eee;
+        font-weight: 600;
+      }
+
+      .product-list a:hover {
+        background: #fffbf9;
+        border-color: #ffdcd3;
+        color: #b33a2f;
+      }
+
+      /* Footer */
+      .site-footer {
+        margin-top: 36px;
+        background: linear-gradient(180deg, #fafafa, #f5f5f8);
+        padding: 28px 20px;
+        border-top: 1px solid #e9e9ef;
+      }
+
+      .footer-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .footer-col h5 {
+        margin: 0 0 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        color: #222;
+      }
+
+      .footer-col ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-col a {
+        color: #555;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+      }
+
+      .footer-col a:hover {
+        color: #000;
+      }
+
+      .socials {
+        display: flex;
+        gap: 10px;
+        margin-top: 6px;
+      }
+
+      .socials a {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #fff;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+        text-decoration: none;
+      }
+
+      .footer-copy {
+        grid-column: 1 / -1;
+        margin-top: 16px;
+        color: #777;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive: stack sidebar above content on small screens */
+      @media (max-width: 900px) {
+        .site-layout {
+          grid-template-columns: 1fr;
+          padding: 0 12px 30px;
+        }
+        .footer-inner {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Simplified footer styles */
+      .site-footer {
+        background: #f9f9f9;
+        padding: 20px;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .footer-links a {
+        color: #333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #ff6f61;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 10px;
+      }
+
+      .social-links a {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #fff;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+        text-decoration: none;
+      }
+
+      .copyright {
+        color: #777;
+        font-size: 0.85rem;
+        text-align: center;
+      }
+
+      @media (max-width: 600px) {
+        .footer-content {
+          padding: 0 12px;
+        }
+        .footer-links {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <h1>KYLA & CO</h1>
+    <h1>SCENTED</h1>
     <h2>DISCOVER YOUR SIGNATURE SCENT!!!</h2>
+
     <nav class="main-nav">
       <ul>
-        <li><a href="https://kylaco.netlify.app/#">Home</a></li>
-        <li><a href="apply-now.html">Become a Reseller</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="contact.html">Contact</a></li>
+        <li class="dropdown">
+          <a href="javascript:void(0)">Products</a>
+          <div class="dropdown-content">
+            <a href="perfumes-for-her.html">Perfumes for Her</a>
+            <a href="perfumes-for-him.html">Perfumes for Him</a>
+            <a href="body-lotion.html">Body Lotion</a>
+            <a href="hand-lotion.html">Hand Lotion</a>
+            <a href="perfume-sets.html">Perfume Sets</a>
+            <a href="roll-ons.html">Roll-Ons</a>
+            <a href="hair-products.html">Hair Products</a>
+          </div>
+        </li>
         <li>
           <a href="cart.html" class="cart-link"
             >🛒 View Cart (<span id="cart-count">0</span>)</a
           >
         </li>
-        <li>
-          <a href="reseller.html" style="font-weight: bold; color: #ff6f61"
-            >Reseller Login</a
-          >
-        </li>
       </ul>
     </nav>
-    <section class="product-showcase">
-      <img
-        src="blossombliss.png"
-        alt="Luxury Perfume Bottle"
-        class="perfume-image"
-      />
-      <div class="scent-description">
-        <h2>Blossom Bliss</h2>
-        <p>
-          A delicate fusion of jasmine, vanilla, and sandalwood — Blossom Bliss
-          evokes elegance and warmth. Perfect for day or night, this scent
-          lingers with a soft floral whisper and a creamy finish.
-        </p>
-        <button>SHOP NOW</button>
-      </div>
-    </section>
 
-    <section>
-      <h3>Featured Fragrances</h3>
-      <div class="fragrance-grid">
-        <div class="fragrance">
-          <img src="blossombliss.png" alt="Fragrance 1" />
-          <p>Fragrance 1 - A blend of floral and woody notes.</p>
-          <p class="price">R120.00</p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 1 - A blend of floral and woody notes."
-            data-price="R120.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="bold.png" alt="Fragrance 2" />
-          <p>Fragrance 2 - A fresh citrus scent with a hint of spice.</p>
-          <p class="price">R120.00</p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 2 - A fresh citrus scent with a hint of spice."
-            data-price="R120.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="elodie claire.png" alt="Fragrance 3" />
-          <p>Fragrance 3 - An exotic mix of jasmine and sandalwood.</p>
-          <p class="price">R120.00</p>
+    <!-- new layout: sidebar + main -->
+    <div class="site-layout">
+      <!-- sidebar: product list -->
+      <aside class="sidebar" aria-label="Product categories">
+        <h4>Products</h4>
+        <ul class="product-list">
+          <li><a href="perfumes-for-her.html">Perfumes for Her</a></li>
+          <li><a href="perfumes-for-him.html">Perfumes for Him</a></li>
+          <li><a href="perfume-sets.html">Perfume Sets</a></li>
+          <li><a href="body-lotion.html">Body Lotion</a></li>
+          <li><a href="hand-lotion.html">Hand Lotion</a></li>
+          <li><a href="roll-ons.html">Roll-Ons</a></li>
+          <li><a href="hair-products.html">Hair Products</a></li>
+        </ul>
+      </aside>
 
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 3 - An exotic mix of jasmine and sandalwood."
-            data-price="R120.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="sama.png" alt="Fragrance 4" />
-          <p>Fragrance 4 - A rich, deep scent with notes of amber.</p>
-          <p class="price">R120.00</p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 4 - A rich, deep scent with notes of amber."
-            data-price="R120.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="blossombliss.png" alt="Fragrance 5" />
-          <p>Fragrance 5 - A sweet vanilla and musk combination.</p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 5 - A sweet vanilla and musk combination."
-            data-price="299.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="blossombliss.png" alt="Fragrance 6" />
-          <p>
-            Fragrance 6 - A refreshing aquatic scent with floral undertones.
-          </p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 6 - A refreshing aquatic scent with floral undertones."
-            data-price="299.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="blossombliss.png" alt="Fragrance 7" />
-          <p>
-            Fragrance 7 - A spicy oriental fragrance with hints of cinnamon.
-          </p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 7 - A spicy oriental fragrance with hints of cinnamon."
-            data-price="299.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="blossombliss.png" alt="Fragrance 8" />
-          <p>Fragrance 8 - A bold scent with notes of leather and tobacco.</p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 8 - A bold scent with notes of leather and tobacco."
-            data-price="299.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-        <div class="fragrance">
-          <img src="blossombliss.png" alt="Fragrance 8" />
-          <p>Fragrance 8 - A bold scent with notes of leather and tobacco.</p>
-          <button
-            class="add-to-cart"
-            data-name="Fragrance 8 - A bold scent with notes of leather and tobacco."
-            data-price="299.00"
-          >
-            Add to Cart (<span class="item-count">0</span>)
-          </button>
-        </div>
-      </div>
-    </section>
-    <div class="more-wrapper">
-      <a href="page2.html" class="more">Load More</a>
+      <!-- main content (hero, banners, featured) -->
+      <main>
+        <section class="product-showcase" aria-label="Hero">
+          <img src="Me.jpg" alt="Scented Perfumes" class="perfume-image" />
+          <div class="scent-description" aria-hidden="false">
+            <h2>Blossom Bliss</h2>
+            <p>
+              A delicate fusion of jasmine, vanilla, and sandalwood — Blossom
+              Bliss evokes elegance and warmth. Perfect for day or night, this
+              scent lingers with a soft floral whisper and a creamy finish.
+            </p>
+            <button>SHOP NOW</button>
+          </div>
+        </section>
+
+        <section class="three-images-row" aria-label="Featured banners">
+          <div class="three-images">
+            <img src="image1.jpg" alt="Banner 1" />
+            <img src="image2.jpg" alt="Banner 2" />
+            <img src="image3.jpg" alt="Banner 3" />
+          </div>
+        </section>
+      </main>
     </div>
-    <video autoplay muted loop id="bg-video">
-      <source src="kylaco.mp4" type="video/mp4" />
-    </video>
+
+    <!-- footer -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <nav class="footer-links">
+          <a href="about.html">About</a>
+          <a href="careers.html">Careers</a>
+          <a href="faq.html">FAQs</a>
+          <a href="contact.html">Contact</a>
+          <a href="shipping.html">Shipping & Returns</a>
+          <a href="terms.html">Terms & Privacy</a>
+        </nav>
+        <div class="social-links">
+          <a
+            href="https://www.facebook.com/profile.php?id=61558027613981&sk=about"
+            aria-label="Facebook"
+            target="_blank"
+          >
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/scentedperfumes1/"
+            aria-label="Instagram"
+            target="_blank"
+          >
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a
+            href="https://x.com/Scented6630901"
+            aria-label="Twitter"
+            target="_blank"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+        <div class="copyright">
+          © <span id="year"></span> Scented — All rights reserved.
+        </div>
+      </div>
+    </footer>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         let cart = JSON.parse(localStorage.getItem("shopCart")) || [];
@@ -691,6 +994,10 @@
         });
 
         updateCartCount();
+
+        // set footer year
+        const year = new Date().getFullYear();
+        document.getElementById("year").textContent = year;
       });
     </script>
   </body>
