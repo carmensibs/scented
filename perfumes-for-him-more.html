@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>More Perfumes for Him - Kyla & Co</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #f8f8fb;
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #222;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        margin: 8px 0 16px;
+      }
+
+      .product-showcase {
+        max-width: 1200px;
+        margin: 0 auto 24px;
+        padding: 12px;
+        box-sizing: border-box;
+      }
+
+      .fragrance-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+
+      .fragrance {
+        background: #fff;
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      }
+
+      .fragrance img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+
+      .price {
+        font-weight: 700;
+        color: #c94b3b;
+        margin: 8px 0;
+      }
+
+      .add-to-cart {
+        background: #ff6f61;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .more-button-container {
+        text-align: center;
+        margin: 20px 0 40px;
+      }
+
+      .more-button {
+        display: inline-block;
+        padding: 10px 22px;
+        background: #333;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+      }
+
+      @media (max-width: 1100px) {
+        .fragrance-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .fragrance-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .fragrance-grid {
+          grid-template-columns: 1fr;
+        }
+        .fragrance img {
+          height: 180px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>More Perfumes for Him</h1>
+    <h2>Explore additional masculine scents</h2>
+
+    <section class="product-showcase">
+      <div class="fragrance-grid">
+        <div class="fragrance">
+          <img src="woodsage2.png" alt="Wood Sage II" />
+          <h3>Wood Sage II</h3>
+          <p>Earthy sage with warm cedar</p>
+          <div class="price">R195.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Wood Sage II"
+            data-price="195.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="smokyleather2.png" alt="Smoky Leather" />
+          <h3>Smoky Leather</h3>
+          <p>Smoky leather with amber base</p>
+          <div class="price">R215.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Smoky Leather"
+            data-price="215.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="citrusnoir.png" alt="Citrus Noir" />
+          <h3>Citrus Noir</h3>
+          <p>Bergamot and black pepper freshness</p>
+          <div class="price">R185.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Citrus Noir"
+            data-price="185.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="vetiverwood.png" alt="Vetiver Wood" />
+          <h3>Vetiver Wood</h3>
+          <p>Clean vetiver with deep wood tones</p>
+          <div class="price">R200.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Vetiver Wood"
+            data-price="200.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="smokedamber.png" alt="Smoked Amber" />
+          <h3>Smoked Amber</h3>
+          <p>Warm amber with smoky spices</p>
+          <div class="price">R210.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Smoked Amber"
+            data-price="210.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="spiceoud2.png" alt="Spice Oud II" />
+          <h3>Spice Oud II</h3>
+          <p>Rich oud with exotic spices</p>
+          <div class="price">R220.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Spice Oud II"
+            data-price="220.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="freshbergamot2.png" alt="Fresh Bergamot II" />
+          <h3>Fresh Bergamot II</h3>
+          <p>Citrus top with aromatic mint</p>
+          <div class="price">R175.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Fresh Bergamot II"
+            data-price="175.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="bluecedar2.png" alt="Blue Cedar II" />
+          <h3>Blue Cedar II</h3>
+          <p>Cedar heart with oceanic hints</p>
+          <div class="price">R190.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Blue Cedar II"
+            data-price="190.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="teakwood2.png" alt="Teakwood II" />
+          <h3>Teakwood II</h3>
+          <p>Rich teakwood and suede</p>
+          <div class="price">R205.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Teakwood II"
+            data-price="205.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="tobaccovanilla2.png" alt="Tobacco Vanilla II" />
+          <h3>Tobacco Vanilla II</h3>
+          <p>Smoky tobacco with sweet vanilla</p>
+          <div class="price">R215.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Tobacco Vanilla II"
+            data-price="215.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="peppermintsage2.png" alt="Peppermint Sage II" />
+          <h3>Peppermint Sage II</h3>
+          <p>Cool mint with herbal sage</p>
+          <div class="price">R180.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Peppermint Sage II"
+            data-price="180.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="velvetmusk2.png" alt="Velvet Musk II" />
+          <h3>Velvet Musk II</h3>
+          <p>Smooth musk with warm woods</p>
+          <div class="price">R195.00</div>
+          <button
+            class="add-to-cart"
+            data-name="Velvet Musk II"
+            data-price="195.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="more-button-container">
+      <a href="perfumes-for-him.html" class="more-button"
+        >Back to Perfumes for Him</a
+      >
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var cart = JSON.parse(localStorage.getItem("shopCart")) || [];
+        var addButtons = document.querySelectorAll(".add-to-cart");
+
+        function updateCartCount() {
+          var cartDisplay = document.getElementById("cart-count");
+          if (!cartDisplay) return;
+          var total = cart.reduce(function (sum, item) {
+            return sum + (item.quantity || 0);
+          }, 0);
+          cartDisplay.textContent = total;
+        }
+
+        function updateButtonCount(button, name) {
+          var item = cart.find(function (i) {
+            return i.name === name;
+          });
+          var countSpan = button.querySelector(".item-count");
+          if (countSpan) countSpan.textContent = item ? item.quantity : 0;
+        }
+
+        addButtons.forEach(function (button) {
+          var name = button.getAttribute("data-name");
+          updateButtonCount(button, name);
+
+          button.addEventListener("click", function () {
+            var price = parseFloat(button.getAttribute("data-price")) || 0;
+            var item = cart.find(function (i) {
+              return i.name === name;
+            });
+            if (item) {
+              item.quantity = (item.quantity || 0) + 1;
+            } else {
+              cart.push({ name: name, price: price, quantity: 1 });
+            }
+            localStorage.setItem("shopCart", JSON.stringify(cart));
+            updateCartCount();
+            updateButtonCount(button, name);
+          });
+        });
+
+        updateCartCount();
+      });
+    </script>
+  </body>
+</html>

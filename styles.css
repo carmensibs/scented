@@ -1,0 +1,168 @@
+/* video-related styles removed to revert to previous state */
+
+.fragrance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.fragrance {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.fragrance:hover {
+  transform: translateY(-5px);
+}
+
+.fragrance img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.fragrance p {
+  color: #333;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.fragrance .price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ff6f61;
+  margin: 1rem 0;
+}
+
+.add-to-cart {
+  background: #ff6f61;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background: #ff5c4d;
+}
+
+.add-to-cart.clicked {
+  animation: buttonClick 0.15s ease;
+}
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Page specific styles */
+h1 {
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  color: #333;
+  margin: 2rem 0 0.5rem;
+}
+
+h2 {
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  color: #666;
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fragrance-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .fragrance {
+    padding: 1rem;
+  }
+
+  .fragrance img {
+    max-width: 150px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 1rem 0;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .main-nav li {
+    margin: 0.5rem 0;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .product-showcase {
+    padding: 10px;
+  }
+
+  body {
+    padding: 10px;
+  }
+
+  .add-to-cart {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .fragrance-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Touch Device Support */
+@media (hover: none) {
+  .dropdown-content {
+    display: none;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
+
+  .dropdown > a {
+    position: relative;
+  }
+}

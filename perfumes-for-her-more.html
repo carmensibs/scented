@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .fragrance-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .fragrance {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+      }
+
+      .fragrance:hover {
+        transform: translateY(-5px);
+      }
+
+      .fragrance img {
+        width: 100%;
+        height: auto;
+        max-width: 200px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 1024px) {
+        .fragrance-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .fragrance-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .fragrance-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>More Perfumes for Her</h1>
+    <section class="product-showcase">
+      <div class="fragrance-grid">
+        <!-- First Row -->
+        <div class="fragrance">
+          <img src="oceanbreeze.png" alt="Ocean Breeze" />
+          <p>Ocean Breeze - Fresh marine notes with citrus undertones</p>
+          <p class="price">R145.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Ocean Breeze"
+            data-price="145.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="lavendersky.png" alt="Lavender Sky" />
+          <p>Lavender Sky - Calming lavender with hints of bergamot</p>
+          <p class="price">R160.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Lavender Sky"
+            data-price="160.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="rosevalley.png" alt="Rose Valley" />
+          <p>Rose Valley - An enchanting blend of Bulgarian roses</p>
+          <p class="price">R155.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Rose Valley"
+            data-price="155.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="vanillamist.png" alt="Vanilla Mist" />
+          <p>Vanilla Mist - Sweet vanilla with warm amber notes</p>
+          <p class="price">R150.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Vanilla Mist"
+            data-price="150.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <!-- Second Row -->
+        <div class="fragrance">
+          <img src="peonybloom.png" alt="Peony Bloom" />
+          <p>Peony Bloom - Fresh peony with jasmine undertones</p>
+          <p class="price">R165.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Peony Bloom"
+            data-price="165.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="sweetpea.png" alt="Sweet Pea" />
+          <p>Sweet Pea - Delicate floral with fresh green notes</p>
+          <p class="price">R140.00</p>
+          <button class="add-to-cart" data-name="Sweet Pea" data-price="140.00">
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="lilyvalley.png" alt="Lily Valley" />
+          <p>Lily Valley - Pure lily of the valley with white musk</p>
+          <p class="price">R170.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Lily Valley"
+            data-price="170.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="jasminedream.png" alt="Jasmine Dream" />
+          <p>Jasmine Dream - Rich jasmine with vanilla base</p>
+          <p class="price">R175.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Jasmine Dream"
+            data-price="175.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <!-- Third Row -->
+        <div class="fragrance">
+          <img src="cherrybloom.png" alt="Cherry Bloom" />
+          <p>Cherry Bloom - Sweet cherry blossom with light musk</p>
+          <p class="price">R155.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Cherry Bloom"
+            data-price="155.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="magnolia.png" alt="Magnolia" />
+          <p>Magnolia - Fresh magnolia with citrus notes</p>
+          <p class="price">R160.00</p>
+          <button class="add-to-cart" data-name="Magnolia" data-price="160.00">
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="orangeblossom.png" alt="Orange Blossom" />
+          <p>Orange Blossom - Fresh orange blossom with honey</p>
+          <p class="price">R165.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Orange Blossom"
+            data-price="165.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="whitefig.png" alt="White Fig" />
+          <p>White Fig - Fresh fig with coconut milk</p>
+          <p class="price">R170.00</p>
+          <button class="add-to-cart" data-name="White Fig" data-price="170.00">
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="more-button-container">
+      <a href="perfumes-for-her.html" class="more-button"
+        >Back to Previous Page</a
+      >
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let cart = JSON.parse(localStorage.getItem("shopCart")) || [];
+        const addButtons = document.querySelectorAll(".add-to-cart");
+
+        function updateCartCount() {
+          const cartDisplay = document.getElementById("cart-count");
+          if (cartDisplay) {
+            let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartDisplay.textContent = total;
+          }
+        }
+
+        function updateButtonCount(button, name) {
+          let item = cart.find((i) => i.name === name);
+          const countSpan = button.querySelector(".item-count");
+          countSpan.textContent = item ? item.quantity : 0;
+        }
+
+        addButtons.forEach((button) => {
+          const fragranceName = button.getAttribute("data-name");
+          updateButtonCount(button, fragranceName);
+
+          button.addEventListener("click", () => {
+            const price = parseFloat(button.getAttribute("data-price"));
+            let item = cart.find((i) => i.name === fragranceName);
+
+            if (item) {
+              item.quantity += 1;
+            } else {
+              cart.push({ name: fragranceName, price: price, quantity: 1 });
+            }
+
+            localStorage.setItem("shopCart", JSON.stringify(cart));
+            updateCartCount();
+            updateButtonCount(button, fragranceName);
+          });
+        });
+
+        updateCartCount();
+      });
+    </script>
+  </body>
+</html>

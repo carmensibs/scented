@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f8fb;
+        margin: 0;
+        padding: 20px;
+        font-family: "Inter", sans-serif;
+      }
+
+      .product-showcase {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        margin: 20px auto;
+        max-width: 1200px;
+        padding: 20px;
+      }
+
+      .fragrance-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .fragrance {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+      }
+
+      .fragrance:hover {
+        transform: translateY(-5px);
+      }
+
+      .fragrance img {
+        width: 100%;
+        height: auto;
+        max-width: 200px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .fragrance p {
+        margin: 8px 0;
+        color: #333;
+      }
+
+      .price {
+        font-weight: 600;
+        color: #ff6f61;
+        font-size: 1.1em;
+      }
+
+      .add-to-cart {
+        background: #ff6f61;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .add-to-cart:hover {
+        background: #ff5c4d;
+      }
+
+      .more-button-container {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .more-button {
+        display: inline-block;
+        padding: 12px 30px;
+        background: #ff6f61;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.2s;
+      }
+
+      .more-button:hover {
+        background: #ff5c4d;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 1024px) {
+        .fragrance-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .fragrance-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .fragrance-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Perfumes for Her</h1>
+    <h2>Discover Your Signature Scent</h2>
+
+    <section class="product-showcase">
+      <div class="fragrance-grid">
+        <!-- Row 1 -->
+        <div class="fragrance">
+          <img src="sweetrose.png" alt="Sweet Rose" />
+          <p>Sweet Rose - Elegant rose with sweet vanilla undertones</p>
+          <p class="price">R180.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Sweet Rose"
+            data-price="180.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="midnightjasmine.png" alt="Midnight Jasmine" />
+          <p>Midnight Jasmine - Rich jasmine with amber notes</p>
+          <p class="price">R195.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Midnight Jasmine"
+            data-price="195.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="vanillaorchid.png" alt="Vanilla Orchid" />
+          <p>Vanilla Orchid - Sweet vanilla with exotic orchid</p>
+          <p class="price">R185.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Vanilla Orchid"
+            data-price="185.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="peonybloom.png" alt="Peony Bloom" />
+          <p>Peony Bloom - Fresh peony with jasmine undertones</p>
+          <p class="price">R175.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Peony Bloom"
+            data-price="175.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="fragrance">
+          <img src="lilyvalley.png" alt="Lily Valley" />
+          <p>Lily Valley - Pure lily of the valley with white musk</p>
+          <p class="price">R190.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Lily Valley"
+            data-price="190.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="rosechampagne.png" alt="Rose Champagne" />
+          <p>Rose Champagne - Sparkling rose with citrus notes</p>
+          <p class="price">R200.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Rose Champagne"
+            data-price="200.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="cherrybloom.png" alt="Cherry Bloom" />
+          <p>Cherry Bloom - Sweet cherry blossom with light musk</p>
+          <p class="price">R170.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Cherry Bloom"
+            data-price="170.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="orangeblossom.png" alt="Orange Blossom" />
+          <p>Orange Blossom - Fresh orange blossom with honey</p>
+          <p class="price">R165.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Orange Blossom"
+            data-price="165.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="fragrance">
+          <img src="lavendersky.png" alt="Lavender Sky" />
+          <p>Lavender Sky - Calming lavender with bergamot</p>
+          <p class="price">R160.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Lavender Sky"
+            data-price="160.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="jasminedream.png" alt="Jasmine Dream" />
+          <p>Jasmine Dream - Pure jasmine with vanilla base</p>
+          <p class="price">R185.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Jasmine Dream"
+            data-price="185.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="magnolia.png" alt="Magnolia Charm" />
+          <p>Magnolia Charm - Fresh magnolia with citrus notes</p>
+          <p class="price">R175.00</p>
+          <button
+            class="add-to-cart"
+            data-name="Magnolia Charm"
+            data-price="175.00"
+          >
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+
+        <div class="fragrance">
+          <img src="whitefig.png" alt="White Fig" />
+          <p>White Fig - Fresh fig with coconut milk</p>
+          <p class="price">R195.00</p>
+          <button class="add-to-cart" data-name="White Fig" data-price="195.00">
+            Add to Cart (<span class="item-count">0</span>)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="more-button-container">
+      <a href="perfumes-for-her-more.html" class="more-button"
+        >View More Perfumes</a
+      >
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let cart = JSON.parse(localStorage.getItem("shopCart")) || [];
+        const addButtons = document.querySelectorAll(".add-to-cart");
+
+        function updateCartCount() {
+          const cartDisplay = document.getElementById("cart-count");
+          if (cartDisplay) {
+            let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartDisplay.textContent = total;
+          }
+        }
+
+        function updateButtonCount(button, name) {
+          let item = cart.find((i) => i.name === name);
+          const countSpan = button.querySelector(".item-count");
+          countSpan.textContent = item ? item.quantity : 0;
+        }
+
+        addButtons.forEach((button) => {
+          const fragranceName = button.getAttribute("data-name");
+          updateButtonCount(button, fragranceName);
+
+          button.addEventListener("click", () => {
+            const price = parseFloat(button.getAttribute("data-price"));
+            let item = cart.find((i) => i.name === fragranceName);
+
+            if (item) {
+              item.quantity += 1;
+            } else {
+              cart.push({ name: fragranceName, price: price, quantity: 1 });
+            }
+
+            localStorage.setItem("shopCart", JSON.stringify(cart));
+            updateCartCount();
+            updateButtonCount(button, fragranceName);
+          });
+        });
+
+        updateCartCount();
+      });
+    </script>
+  </body>
+</html>

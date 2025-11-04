@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Checkout - Kyla & Co</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+      body {
+        font-family: Inter, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f8f8fb;
+        color: #222;
+      }
+      h1 {
+        text-align: center;
+        font-family: "Playfair Display", serif;
+        margin-bottom: 8px;
+      }
+      .checkout-wrapper {
+        max-width: 920px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 20px;
+      }
+      .checkout-form {
+        padding: 8px 4px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 12px;
+      }
+      .field label {
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: #444;
+      }
+      .field input {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #e6e6ee;
+        font-size: 14px;
+      }
+      .btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn-primary {
+        background: #ff6f61;
+        color: #fff;
+        width: 100%;
+      }
+      .summary {
+        background: #fff7f7;
+        padding: 14px;
+        border-radius: 8px;
+        border: 1px solid #ffecec;
+      }
+      .cart-items {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 12px 0;
+        max-height: 320px;
+        overflow: auto;
+      }
+      .cart-items li {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0ecec;
+      }
+      .totals p,
+      .totals h3 {
+        margin: 6px 0;
+      }
+      .note {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      @media (max-width: 860px) {
+        .checkout-wrapper {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Checkout</h1>
+    <div class="checkout-wrapper">
+      <div class="checkout-form">
+        <p class="note">
+          Please enter your details for the receipt and payment.
+        </p>
+
+        <div class="field">
+          <label for="first-name">First name</label>
+          <input id="first-name" type="text" placeholder="Kyla" />
+        </div>
+
+        <div class="field">
+          <label for="last-name">Last name</label>
+          <input id="last-name" type="text" placeholder="Smith" />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" type="tel" placeholder="+27 82 000 0000" />
+        </div>
+
+        <div style="margin-top: 12px">
+          <button id="pay-btn" class="btn btn-primary">Pay</button>
+        </div>
+
+        <div
+          id="checkout-msg"
+          class="note"
+          style="color: #b00; margin-top: 12px"
+        ></div>
+      </div>
+
+      <div>
+        <div class="summary">
+          <h3>Order summary</h3>
+          <ul id="checkout-cart" class="cart-items"></ul>
+
+          <div class="totals">
+            <p>Subtotal: R<span id="subtotal">0.00</span></p>
+            <p>VAT (15%): R<span id="tax">0.00</span></p>
+            <p>Shipping: R<span id="shipping">60.00</span></p>
+            <h3>Total: R<span id="total">0.00</span></h3>
+          </div>
+          <p class="note">
+            You will be redirected to the payment provider to complete the
+            transaction.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "shopCart";
+
+      function formatCurrency(n) {
+        return Number(n).toFixed(2);
+      }
+
+      function computeTotals(cart) {
+        let subtotal = 0;
+        for (const item of cart) {
+          const price = Number(item.price) || 0;
+          const qty = Number(item.quantity) || 1;
+          subtotal += price * qty;
+        }
+        const tax = subtotal * 0.15;
+        const shipping = cart.length ? 60 : 0;
+        const total = subtotal + tax + shipping;
+        return { subtotal, tax, shipping, total };
+      }
+
+      function getCartFromSessionOrStorage() {
+        try {
+          const s = sessionStorage.getItem("checkoutData");
+          if (s) {
+            const parsed = JSON.parse(s);
+            if (parsed && parsed.cart) return parsed.cart;
+          }
+        } catch {}
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch {
+          return [];
+        }
+      }
+
+      function renderCart(cart) {
+        const list = document.getElementById("checkout-cart");
+        list.innerHTML = "";
+        if (!cart || cart.length === 0) {
+          const li = document.createElement("li");
+          li.textContent = "Cart is empty.";
+          list.appendChild(li);
+          return;
+        }
+        cart.forEach((it) => {
+          const li = document.createElement("li");
+          const left = document.createElement("div");
+          left.textContent = `${it.name || "Item"} (${it.quantity || 1})`;
+          const right = document.createElement("div");
+          const line = (Number(it.price) || 0) * (Number(it.quantity) || 1);
+          right.textContent = `R${formatCurrency(line)}`;
+          li.appendChild(left);
+          li.appendChild(right);
+          list.appendChild(li);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const cart = getCartFromSessionOrStorage();
+        renderCart(cart);
+        const totals = computeTotals(cart);
+        document.getElementById("subtotal").textContent = formatCurrency(
+          totals.subtotal
+        );
+        document.getElementById("tax").textContent = formatCurrency(totals.tax);
+        document.getElementById("shipping").textContent = formatCurrency(
+          totals.shipping
+        );
+        document.getElementById("total").textContent = formatCurrency(
+          totals.total
+        );
+
+        // Prefill email if available from sessionStorage checkoutData
+        try {
+          const s = sessionStorage.getItem("checkoutData");
+          if (s) {
+            const parsed = JSON.parse(s);
+            if (parsed && parsed.email) {
+              document.getElementById("email").value = parsed.email;
+            }
+          }
+        } catch {}
+
+        const payBtn = document.getElementById("pay-btn");
+        payBtn.addEventListener("click", async () => {
+          const first = document.getElementById("first-name").value.trim();
+          const last = document.getElementById("last-name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const phone = document.getElementById("phone").value.trim();
+
+          if (!first || !last) {
+            document.getElementById("checkout-msg").textContent =
+              "Please provide your name and surname.";
+            return;
+          }
+          if (!email) {
+            document.getElementById("checkout-msg").textContent =
+              "Please provide an email for the receipt.";
+            return;
+          }
+          if (!cart || !cart.length) {
+            alert("Cart is empty.");
+            return;
+          }
+
+          payBtn.disabled = true;
+          const prev = payBtn.textContent;
+          payBtn.textContent = "Processing...";
+
+          try {
+            const response = await fetch("/initialize-transaction", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: email,
+                amount: Math.round(totals.total * 100), // Amount in kobo
+              }),
+            });
+
+            const data = await response.json();
+
+            if (data.status) {
+              // Use the access_code to resume the transaction
+              const popup = new PaystackPop();
+              popup.resumeTransaction(data.data.access_code); // Call resumeTransaction with access_code
+            } else {
+              document.getElementById("checkout-msg").textContent =
+                data.message;
+            }
+          } catch (err) {
+            console.error("Payment init error:", err);
+            document.getElementById("checkout-msg").textContent =
+              "Could not initiate payment. Try again.";
+            payBtn.disabled = false;
+            payBtn.textContent = prev;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
