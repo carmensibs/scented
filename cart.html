@@ -5,271 +5,247 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
     <style>
       body {
-        font-family: "Inter", sans-serif;
-        background: linear-gradient(-45deg, #fbeffb, #f0f8ff, #fff0f5, #e6e6fa);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+        font-family: Inter, sans-serif;
         margin: 0;
         padding: 20px;
+        box-sizing: border-box;
+        background: #f8f8fb;
       }
-      @keyframes gradientShift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-      h1,
-      h2,
-      h3 {
-        font-family: "Playfair Display", serif;
+      h1 {
         text-align: center;
-        color: #333;
-        margin: 20px 0;
+        font-family: "Playfair Display", serif;
       }
       .cart-wrapper {
-        max-width: 700px;
-        margin: 30px auto;
-        background: #f9f9f9;
-        border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-        padding: 30px;
+        max-width: 820px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
       }
       ul#cart-items {
         list-style: none;
         padding: 0;
-        margin: 0 0 20px 0;
+        margin: 0 0 12px 0;
       }
       ul#cart-items li {
         display: flex;
         justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
         align-items: center;
-        background: #fff;
-        margin-bottom: 10px;
-        padding: 12px 18px;
-        border-radius: 8px;
-        font-size: 1em;
-        color: #333;
-        border: 1px solid #eee;
       }
       .cart-totals {
-        background: #fff0f5;
+        background: #fff7f7;
+        padding: 14px;
         border-radius: 8px;
-        padding: 18px;
-        margin-top: 20px;
-        font-size: 1.1em;
-        color: #333;
-      }
-      .cart-totals p,
-      .cart-totals h3 {
-        margin: 10px 0;
+        margin-top: 12px;
       }
       .cart-actions {
-        text-align: center;
-        margin-top: 30px;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 16px;
+        flex-wrap: wrap;
       }
-      .cart-actions a,
-      .cart-actions button {
-        display: inline-block;
-        padding: 10px 22px;
-        background-color: #ff6f61;
-        color: white;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1em;
-        border: none;
-        cursor: pointer;
-        margin: 0 8px;
-        transition: background-color 0.3s ease;
-      }
-      .cart-actions a:hover,
-      .cart-actions button:hover {
-        background-color: #e65c50;
-      }
-      .clear-cart-btn {
-        display: inline-block;
-        padding: 10px 22px;
-        background-color: #888;
-        color: white;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1em;
-        border: none;
-        cursor: pointer;
-        margin: 0 8px;
-        transition: background-color 0.3s ease;
-      }
-      .clear-cart-btn:hover {
-        background-color: #555;
-      }
-      @media (max-width: 600px) {
-        .cart-wrapper {
-          padding: 10px;
-        }
-        ul#cart-items li {
-          font-size: 0.95em;
-          padding: 10px;
-        }
-        .cart-totals {
-          padding: 10px;
-        }
-      }
-      #bg-video {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -1;
-        transform: translate(-50%, -50%);
-        overflow: hidden;
-      }
-      .payment-section {
-        text-align: center;
-        margin-top: 40px;
-        padding: 20px;
-        background: #fff;
+      .btn {
+        padding: 10px 18px;
         border-radius: 8px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-      }
-      .yoco-pay-btn {
-        display: inline-block;
-        background-color: #ff6f61;
-        color: white;
         border: none;
-        border-radius: 6px;
-        padding: 12px 24px;
-        font-size: 1.1em;
-        font-weight: bold;
         cursor: pointer;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
+        font-weight: 600;
       }
-      .yoco-pay-btn:hover {
-        background-color: #e65c50;
+      .btn-primary {
+        background: #ff6f61;
+        color: #fff;
       }
-      #signup-form {
-        max-width: 400px;
-        margin: 40px auto;
-        background: #fff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      .btn-muted {
+        background: #888;
+        color: #fff;
       }
-      #signup-form label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #333;
+      .empty {
+        text-align: center;
+        color: #777;
+        padding: 24px 0;
       }
-      #signup-form input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 16px;
+      .msg {
+        text-align: center;
+        margin-top: 12px;
+        color: #b00;
+        white-space: pre-wrap;
+      }
+      .checkout-form {
+        text-align: center;
+        margin-top: 12px;
+      }
+      .checkout-form input[type="email"] {
+        padding: 8px;
+        width: 280px;
+        border-radius: 6px;
         border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 1em;
-        color: #333;
       }
-      #signup-form button {
-        width: 100%;
-        padding: 12px;
-        background-color: #ff6f61;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 1.1em;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      #signup-form button:hover {
-        background-color: #e65c50;
+      @media (max-width: 480px) {
+        ul#cart-items li {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .cart-actions {
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
     <h1>Your Cart</h1>
+
     <div class="cart-wrapper">
       <ul id="cart-items"></ul>
+
       <div class="cart-totals">
         <p>Subtotal: R<span id="subtotal">0.00</span></p>
-        <p>Tax (15%): R<span id="tax">0.00</span></p>
+        <p>VAT (15%): R<span id="tax">0.00</span></p>
         <p>Shipping: R<span id="shipping">60.00</span></p>
         <h3>Total: R<span id="total">0.00</span></h3>
       </div>
+
       <div class="cart-actions">
-        <a href="index.html">Continue Shopping</a>
-        <button id="checkout-btn">Checkout</button>
-        <button class="clear-cart-btn" id="clear-cart-btn">Clear Cart</button>
+        <a class="btn" href="index.html">Continue Shopping</a>
+        <button id="clear-cart-btn" class="btn btn-muted">Clear Cart</button>
+        <button id="checkout-btn" class="btn btn-primary">Checkout</button>
       </div>
+
+      <div id="cart-message" class="msg"></div>
     </div>
 
-    <video autoplay muted loop id="bg-video">
-      <source src="kylaco.mp4" type="video/mp4" />
-    </video>
     <script>
-      function sanitizeCart(cart) {
-        return Array.isArray(cart)
-          ? cart
-              .filter(
-                (item) =>
-                  item &&
-                  typeof item.name === "string" &&
-                  typeof item.price === "number" &&
-                  typeof item.quantity === "number"
-              )
-              .map((item) => ({
-                name: item.name,
-                price: item.price,
-                quantity: item.quantity,
-              }))
-          : [];
+      const STORAGE_KEY = "shopCart";
+      const CREATE_SNAPSCAN_URL =
+        "http://localhost:4242/create-snapscan-session"; // backend: create SnapScan checkout
+
+      async function createSnapscanSession(cart, email) {
+        const res = await fetch(CREATE_SNAPSCAN_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cart, email }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok)
+          throw new Error(body.error || body.message || `status ${res.status}`);
+        return body;
+      }
+
+      function formatCurrency(n) {
+        return Number(n).toFixed(2);
+      }
+
+      function showMessage(text, timeout = 3500) {
+        const el = document.getElementById("cart-message");
+        el.textContent = text || "";
+        if (!text) return;
+        clearTimeout(el._t);
+        el._t = setTimeout(() => (el.textContent = ""), timeout);
+      }
+
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveCart(cart) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+      }
+
+      function removeItemAt(index) {
+        const cart = getCart();
+        if (index < 0 || index >= cart.length) return;
+        cart.splice(index, 1);
+        saveCart(cart);
+        updateCartDisplay();
+      }
+
+      function computeTotals(cart) {
+        let subtotal = 0;
+        for (const item of cart) {
+          const price = Number(item.price) || 0;
+          const qty = Number(item.quantity) || 1;
+          subtotal += price * qty;
+        }
+        const tax = subtotal * 0.15;
+        const shipping = cart.length ? 60 : 0; // match server: flat R60 when items present
+        const total = subtotal + tax + shipping;
+        return { subtotal, tax, shipping, total };
       }
 
       function updateCartDisplay() {
-        let cart = JSON.parse(localStorage.getItem("shopCart")) || [];
-        cart = sanitizeCart(cart);
-        localStorage.setItem("shopCart", JSON.stringify(cart)); // Save sanitized cart
+        const cart = getCart();
+        const list = document.getElementById("cart-items");
+        list.innerHTML = "";
 
-        const cartItems = document.getElementById("cart-items");
-        let subtotal = 0;
-
-        cartItems.innerHTML = "";
-
-        cart.forEach((item) => {
+        if (!cart || cart.length === 0) {
           const li = document.createElement("li");
-          li.innerHTML = `<span>${item.name} x${item.quantity}</span><span>R${(
-            item.price * item.quantity
-          ).toFixed(2)}</span>`;
-          cartItems.appendChild(li);
-          subtotal += item.price * item.quantity;
-        });
+          li.className = "empty";
+          li.textContent = "Your cart is empty.";
+          list.appendChild(li);
+        } else {
+          cart.forEach((item, idx) => {
+            const li = document.createElement("li");
 
-        document.getElementById("subtotal").textContent = subtotal.toFixed(2);
+            const left = document.createElement("div");
+            left.style.display = "flex";
+            left.style.flexDirection = "column";
 
-        const vat = subtotal * 0.15;
-        document.getElementById("tax").textContent = vat.toFixed(2);
+            const title = document.createElement("strong");
+            title.textContent = item.name || "Item";
+            left.appendChild(title);
 
-        const shipping = cart.length > 0 ? 60.0 : 0.0;
-        document.getElementById("shipping").textContent = shipping.toFixed(2);
+            const meta = document.createElement("small");
+            meta.textContent = `${item.quantity || 1} × R${formatCurrency(
+              item.price || 0
+            )}`;
+            left.appendChild(meta);
 
-        const total = subtotal + vat + shipping;
-        document.getElementById("total").textContent = total.toFixed(2);
+            const right = document.createElement("div");
+            right.style.display = "flex";
+            right.style.alignItems = "center";
+            right.style.gap = "8px";
+
+            const priceEl = document.createElement("span");
+            const lineTotal =
+              Number(item.price || 0) * Number(item.quantity || 1) || 0;
+            priceEl.textContent = `R${formatCurrency(lineTotal)}`;
+            right.appendChild(priceEl);
+
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "btn btn-muted";
+            removeBtn.textContent = "Remove";
+            removeBtn.addEventListener("click", () => removeItemAt(idx));
+            right.appendChild(removeBtn);
+
+            li.appendChild(left);
+            li.appendChild(right);
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+            li.style.alignItems = "center";
+            list.appendChild(li);
+          });
+        }
+
+        const totals = computeTotals(cart);
+        document.getElementById("subtotal").textContent = formatCurrency(
+          totals.subtotal
+        );
+        document.getElementById("tax").textContent = formatCurrency(totals.tax);
+        document.getElementById("shipping").textContent = formatCurrency(
+          totals.shipping
+        );
+        document.getElementById("total").textContent = formatCurrency(
+          totals.total
+        );
       }
 
       document.addEventListener("DOMContentLoaded", () => {
@@ -277,24 +253,32 @@
 
         document
           .getElementById("clear-cart-btn")
-          .addEventListener("click", function () {
-            localStorage.removeItem("shopCart");
+          .addEventListener("click", () => {
+            localStorage.removeItem(STORAGE_KEY);
             updateCartDisplay();
+            showMessage("Cart cleared.");
           });
 
         document
           .getElementById("checkout-btn")
           .addEventListener("click", function () {
-            // Redirect to your Yoco payment link
-            window.open("YOUR_YOCO_PAYMENT_LINK", "_blank");
+            const cart = getCart();
+            if (!cart.length) {
+              alert("Cart is empty.");
+              return;
+            }
+            const emailInput = document.getElementById("payer-email");
+            const email =
+              emailInput && emailInput.value && emailInput.value.trim();
+
+            // save checkout data to sessionStorage and redirect to checkout page
+            sessionStorage.setItem(
+              "checkoutData",
+              JSON.stringify({ cart, email })
+            );
+            window.location.href = "checkout.html";
           });
       });
-
-      // Sample cart item for testing
-      const sampleCartItem = { name: "Perfume Name", price: 299, quantity: 1 };
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      cart.push(sampleCartItem);
-      localStorage.setItem("cart", JSON.stringify(cart));
     </script>
   </body>
 </html>
