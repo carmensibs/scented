@@ -1035,10 +1035,44 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        let cart = JSON.parse(localStorage.getItem("shopCart")) || [];
-        localStorage.setItem("shopCart", JSON.stringify(cart));
+        // Initialize cart from localStorage
+        let cart = [];
+        try {
+          cart = JSON.parse(localStorage.getItem("shopCart")) || [];
+        } catch (e) {
+          console.error("Error loading cart:", e);
+          cart = [];
+        }
+
+        // Update cart display
         const cartDisplay = document.getElementById("cart-count");
-        const addButtons = document.querySelectorAll(".add-to-cart");
+
+        function updateCartCount() {
+          const total = cart.reduce(
+            (sum, item) => sum + (Number(item.quantity) || 0),
+            0
+          );
+          if (cartDisplay) {
+            cartDisplay.textContent = total;
+          }
+        }
+
+        // Update cart when storage changes (from other pages)
+        window.addEventListener("storage", function (e) {
+          if (e.key === "shopCart") {
+            try {
+              cart = JSON.parse(e.newValue) || [];
+              updateCartCount();
+            } catch (e) {
+              console.error("Error updating cart:", e);
+            }
+          }
+        });
+
+        // Initial cart count update
+        updateCartCount();
+
+        // Rest of your existing code...
         const searchForm = document.getElementById("searchForm");
         const searchInput = document.getElementById("searchInput");
         const searchResultsSection = document.getElementById("searchResults");
