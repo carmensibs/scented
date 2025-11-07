@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>FAQs — Scented</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Minimal page-specific FAQ styling */
+      body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: #f8f8fb;
+        margin: 0;
+        color: #222;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 8px 0 18px;
+        text-align: center;
+      }
+
+      .faq-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 12px;
+      }
+
+      .faq {
+        background: #fff;
+        border-radius: 8px;
+        padding: 14px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      }
+
+      .question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .answer {
+        margin-top: 10px;
+        color: #444;
+        line-height: 1.45;
+        display: none;
+      }
+
+      .faq.open .answer {
+        display: block;
+      }
+
+      .chev {
+        font-size: 0.95rem;
+        color: #777;
+        margin-left: 12px;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Frequently Asked Questions</h1>
+
+      <ul class="faq-list">
+        <li class="faq">
+          <div class="question">
+            What payment methods do you accept?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            We accept major credit/debit cards (Visa, MasterCard), mobile
+            payments, and bank transfers. For local pickup you can also pay in
+            cash where available.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            How long does shipping take?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            Shipping typically takes 3–7 business days within the country.
+            International shipping times vary by destination — expect 7–21 days.
+            Tracking information is emailed once your order ships.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            What is your returns and exchanges policy?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            Unopened items may be returned within 14 days for a refund. Opened
+            or used products are eligible for exchange only if faulty. Contact
+            us at sibscarmen@gmail.com to begin a return or exchange.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            Are your perfumes authentic?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            Yes — all products sold are genuine and sourced from approved
+            suppliers. We perform quality checks on every shipment before sale.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            Do you offer samples or testers?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            We offer sample sizes for selected fragrances and provide testers in
+            -store. Availability varies by product — check the product page or
+            contact us for current sample options.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            Can I buy wholesale or place bulk orders?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            Yes. For wholesale inquiries or bulk pricing, email our team at
+            sibscarmen@gmail.com with your requirements and we'll respond with
+            pricing and minimum order details.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            How do I track my order?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            After dispatch you'll receive a tracking number via email. Use that
+            number on the courier's website to monitor delivery status.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            I applied for a job — when will I hear back?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            We review applications as they come in. If shortlisted we'll contact
+            candidates within 2–3 weeks. For application queries email
+            sibscarmen@gmail.com.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            How can I contact customer support?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            For support email sibscarmen@gmail.com or use the Contact page on
+            the site. We aim to reply within 48 hours on weekdays.
+          </div>
+        </li>
+
+        <li class="faq">
+          <div class="question">
+            Do you ship internationally?
+            <span class="chev">▾</span>
+          </div>
+          <div class="answer">
+            Yes — we ship to many countries. International shipping costs and
+            delivery times depend on destination and will be calculated at
+            checkout.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      // Simple accordion behavior
+      document.addEventListener("DOMContentLoaded", function () {
+        var faqs = document.querySelectorAll(".faq");
+        faqs.forEach(function (item) {
+          item
+            .querySelector(".question")
+            .addEventListener("click", function () {
+              // close others
+              faqs.forEach(function (f) {
+                if (f !== item) f.classList.remove("open");
+              });
+              item.classList.toggle("open");
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
