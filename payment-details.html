@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Payment Details — Scented</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Inter, sans-serif;
+        background: #f8f8fb;
+        margin: 0;
+        padding: 20px;
+        color: #222;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      }
+      .bank-details {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f8f8fb;
+        border-radius: 6px;
+      }
+      .items {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0;
+      }
+      .items li {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .btn {
+        background: #ff6f61;
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Payment Details</h1>
+
+        <div class="section">
+          <h3>Bank Transfer Details</h3>
+          <div class="bank-details">
+            <p><strong>Account Name:</strong> Constance Sibanda</p>
+            <p><strong>Bank:</strong> Access Bank</p>
+            <p><strong>Account Number:</strong> 51678294636</p>
+            <p><strong>Branch Code:</strong> 410506</p>
+            <p>
+              <strong>Reference:</strong> <span id="orderRef">Loading...</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Order Summary</h3>
+          <ul id="order-items" class="items"></ul>
+          <div id="order-totals"></div>
+        </div>
+
+        <div class="section">
+          <h3>Shipping Details</h3>
+          <div id="shipping-info"></div>
+        </div>
+
+        <form
+          action="https://formsubmit.co/sibscarmen@gmail.com"
+          method="POST"
+          id="orderForm"
+        >
+          <input type="hidden" name="_subject" value="New Order Received" />
+          <input type="hidden" name="order_ref" id="form_order_ref" />
+          <input type="hidden" name="customer_info" id="form_customer_info" />
+          <input type="hidden" name="order_details" id="form_order_details" />
+          <button type="submit" class="btn">Submit Order</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Get saved data
+        const shippingInfo = JSON.parse(
+          sessionStorage.getItem("shippingInfo") || "{}"
+        );
+        const checkoutData = JSON.parse(
+          sessionStorage.getItem("checkoutData") || "{}"
+        );
+        const { cart = [], totals = {} } = checkoutData;
+
+        // Generate order reference
+        const orderRef = `ORDER-${Date.now().toString().slice(-6)}`;
+        document.getElementById("orderRef").textContent = orderRef;
+
+        // Display order items
+        const itemsList = document.getElementById("order-items");
+        cart.forEach((item) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <span>${item.name} × ${item.quantity}</span>
+            <span>R${(Number(item.price) * Number(item.quantity)).toFixed(
+              2
+            )}</span>
+          `;
+          itemsList.appendChild(li);
+        });
+
+        // Display totals
+        document.getElementById("order-totals").innerHTML = `
+          <p>Subtotal: R${totals.subtotal || "0.00"}</p>
+          <p>Shipping: R${totals.shipping || "100.00"}</p>
+          <h3>Total: R${totals.total || "0.00"}</h3>
+        `;
+
+        // Display shipping info
+        document.getElementById("shipping-info").innerHTML = `
+          <p><strong>Name:</strong> ${shippingInfo.name || ""}</p>
+          <p><strong>Email:</strong> ${shippingInfo.email || ""}</p>
+          <p><strong>Phone:</strong> ${shippingInfo.phone || ""}</p>
+          <p><strong>Address:</strong> ${shippingInfo.address || ""}</p>
+          <p><strong>City:</strong> ${shippingInfo.city || ""}</p>
+          <p><strong>Postal Code:</strong> ${shippingInfo.postal || ""}</p>
+        `;
+
+        // Prepare form data
+        document.getElementById("form_order_ref").value = orderRef;
+        document.getElementById("form_customer_info").value =
+          JSON.stringify(shippingInfo);
+        document.getElementById("form_order_details").value = JSON.stringify({
+          items: cart,
+          totals: totals,
+        });
+
+        // Clear cart after successful form submission
+        document.getElementById("orderForm").addEventListener("submit", () => {
+          localStorage.removeItem("shopCart");
+          sessionStorage.removeItem("shippingInfo");
+          sessionStorage.removeItem("checkoutData");
+        });
+      });
+    </script>
+  </body>
+</html>
