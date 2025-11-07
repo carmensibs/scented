@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
       body {
         font-family: Inter, sans-serif;
@@ -80,14 +79,29 @@
         padding: 10px 0;
         border-bottom: 1px solid #f0ecec;
       }
-      .totals p,
-      .totals h3 {
-        margin: 6px 0;
-      }
       .note {
         font-size: 13px;
         color: #666;
         margin-bottom: 8px;
+      }
+      .eft-panel {
+        display: none;
+        background: #fbfff8;
+        border: 1px solid #e6f6e9;
+        padding: 14px;
+        border-radius: 8px;
+        margin-top: 12px;
+      }
+      .small {
+        font-size: 0.95rem;
+        color: #444;
+      }
+      .copy-btn {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
       }
       @media (max-width: 860px) {
         .checkout-wrapper {
@@ -98,10 +112,12 @@
   </head>
   <body>
     <h1>Checkout</h1>
+
     <div class="checkout-wrapper">
       <div class="checkout-form">
         <p class="note">
-          Please enter your details for the receipt and payment.
+          Enter your details. After pressing "Pay" you'll see our bank account
+          details to complete an EFT and a small form to confirm payment
         </p>
 
         <div class="field">
@@ -125,7 +141,9 @@
         </div>
 
         <div style="margin-top: 12px">
-          <button id="pay-btn" class="btn btn-primary">Pay</button>
+          <button id="pay-btn" class="btn btn-primary">
+            Pay / View Bank Details
+          </button>
         </div>
 
         <div
@@ -133,6 +151,107 @@
           class="note"
           style="color: #b00; margin-top: 12px"
         ></div>
+
+        <!-- EFT panel (shown after validation) -->
+        <div id="eftPanel" class="eft-panel" aria-hidden="true">
+          <h3 style="margin-top: 0">Bank transfer (EFT) details</h3>
+          <p class="small">
+            Please transfer the total amount to the account below. Use the
+            reference shown so we can match your payment.
+          </p>
+
+          <div style="margin: 10px 0; display: grid; gap: 6px">
+            <div><strong>Account name:</strong> Scented Perfumes</div>
+            <div><strong>Bank:</strong> Example Bank</div>
+            <div>
+              <strong>Account no:</strong> <span id="acctNum">1234567890</span>
+              <button class="copy-btn" data-copy="#acctNum">Copy</button>
+            </div>
+            <div><strong>Branch code:</strong> 000000</div>
+            <div>
+              <strong>Reference:</strong> <span id="eftRef"></span>
+              <button class="copy-btn" id="copyRef">Copy</button>
+            </div>
+          </div>
+
+          <hr
+            style="border: none; border-top: 1px solid #e6f1ea; margin: 12px 0"
+          />
+
+          <p class="small">
+            After making the transfer, confirm below by submitting the EFT
+            confirmation form. Attach proof of payment (optional). We'll receive
+            your submission by email and confirm manually.
+          </p>
+
+          <form
+            id="eftForm"
+            method="POST"
+            action="https://formsubmit.co/sibscarmen@gmail.com"
+            enctype="multipart/form-data"
+            style="margin-top: 10px"
+          >
+            <input
+              type="hidden"
+              name="_subject"
+              value="EFT payment confirmation"
+            />
+            <input type="hidden" name="order_ref" id="order_ref_field" />
+            <input type="hidden" name="amount" id="amount_field" />
+            <div class="field">
+              <label for="eft_name">Payer full name</label>
+              <input id="eft_name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="eft_email">Email</label>
+              <input id="eft_email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="eft_phone">Phone</label>
+              <input id="eft_phone" name="phone" type="tel" />
+            </div>
+            <div class="field">
+              <label for="eft_reference">Bank reference used</label>
+              <input
+                id="eft_reference"
+                name="bank_reference"
+                type="text"
+                placeholder="e.g. SMITH-163045"
+              />
+            </div>
+            <div class="field">
+              <label for="eft_proof">Proof of payment (optional)</label>
+              <input
+                id="eft_proof"
+                name="proof"
+                type="file"
+                accept=".jpg,.png,.pdf"
+              />
+            </div>
+
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                margin-top: 8px;
+              "
+            >
+              <button type="submit" class="btn btn-primary">
+                Submit Confirmation
+              </button>
+              <button
+                type="button"
+                id="openMailFallback"
+                class="btn"
+                style="background: #444; color: #fff"
+              >
+                Open Email Client
+              </button>
+              <div id="eftMsg" style="margin-left: 8px; color: #0a7a3b"></div>
+            </div>
+          </form>
+        </div>
       </div>
 
       <div>
@@ -146,10 +265,6 @@
             <p>Shipping: R<span id="shipping">60.00</span></p>
             <h3>Total: R<span id="total">0.00</span></h3>
           </div>
-          <p class="note">
-            You will be redirected to the payment provider to complete the
-            transaction.
-          </p>
         </div>
       </div>
     </div>
@@ -168,10 +283,9 @@
           const qty = Number(item.quantity) || 1;
           subtotal += price * qty;
         }
-        const tax = subtotal * 0.15;
         const shipping = cart.length ? 60 : 0;
-        const total = subtotal + tax + shipping;
-        return { subtotal, tax, shipping, total };
+        const total = subtotal + shipping;
+        return { subtotal, shipping, total };
       }
 
       function getCartFromSessionOrStorage() {
@@ -226,72 +340,53 @@
           totals.total
         );
 
-        // Prefill email if available from sessionStorage checkoutData
+        // Prefill email if available
         try {
           const s = sessionStorage.getItem("checkoutData");
           if (s) {
             const parsed = JSON.parse(s);
-            if (parsed && parsed.email) {
+            if (parsed && parsed.email)
               document.getElementById("email").value = parsed.email;
-            }
           }
         } catch {}
 
         const payBtn = document.getElementById("pay-btn");
-        payBtn.addEventListener("click", async () => {
+
+        payBtn.addEventListener("click", () => {
           const first = document.getElementById("first-name").value.trim();
           const last = document.getElementById("last-name").value.trim();
           const email = document.getElementById("email").value.trim();
-          const phone = document.getElementById("phone").value.trim();
 
           if (!first || !last) {
             document.getElementById("checkout-msg").textContent =
-              "Please provide your name and surname.";
+              "Please provide your full name.";
             return;
           }
           if (!email) {
             document.getElementById("checkout-msg").textContent =
-              "Please provide an email for the receipt.";
-            return;
-          }
-          if (!cart || !cart.length) {
-            alert("Cart is empty.");
+              "Please provide an email for confirmation.";
             return;
           }
 
-          payBtn.disabled = true;
-          const prev = payBtn.textContent;
-          payBtn.textContent = "Processing...";
+          // Build order object, save to sessionStorage and redirect to payment details page
+          const timestamp = Date.now().toString().slice(-6);
+          const ref = `${last.toUpperCase()}-${timestamp}`;
+          const checkoutData = {
+            cart,
+            totals,
+            customer: {
+              first,
+              last,
+              email,
+              phone: document.getElementById("phone").value || "",
+            },
+            orderRef: ref,
+          };
 
-          try {
-            const response = await fetch("/initialize-transaction", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: email,
-                amount: Math.round(totals.total * 100), // Amount in kobo
-              }),
-            });
+          sessionStorage.setItem("checkoutData", JSON.stringify(checkoutData));
 
-            const data = await response.json();
-
-            if (data.status) {
-              // Use the access_code to resume the transaction
-              const popup = new PaystackPop();
-              popup.resumeTransaction(data.data.access_code); // Call resumeTransaction with access_code
-            } else {
-              document.getElementById("checkout-msg").textContent =
-                data.message;
-            }
-          } catch (err) {
-            console.error("Payment init error:", err);
-            document.getElementById("checkout-msg").textContent =
-              "Could not initiate payment. Try again.";
-            payBtn.disabled = false;
-            payBtn.textContent = prev;
-          }
+          // go to separate page that shows only payment details + order summary
+          window.location.href = "payment-details.html";
         });
       });
     </script>
