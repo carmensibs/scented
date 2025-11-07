@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Careers — Sales Representative | Kyla & Co</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* ...existing styles... */
+      body {
+        font-family: Inter, sans-serif;
+        background: #f8f8fb;
+        color: #222;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      .job-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      }
+      form.apply-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 14px;
+      }
+      form.apply-form .full {
+        grid-column: 1 / -1;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #e6e6ee;
+        box-sizing: border-box;
+      }
+      .actions {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .btn {
+        background: #ff6f61;
+        color: #fff;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #444;
+      }
+      .status {
+        font-size: 0.95rem;
+        color: #222;
+      }
+      .status.success {
+        color: #0a7a3b;
+      }
+      .status.error {
+        color: #b33a2f;
+      }
+      @media (max-width: 760px) {
+        form.apply-form {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* ...existing styles... */
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <section class="job-card">
+        <h1>Sales Representative — Scented</h1>
+        <p class="note">
+          We're hiring motivated Sales Representatives to join our team. Competitive base salary plus
+          commission and opportunities for advancement.
+        </p>
+
+        <h3>Role & responsibilities</h3>
+        <ul class="roles-list">
+          <li>
+            Sell perfumes and fragrance products to customers 
+          </li>
+          <li>Provide product knowledge, recommendations and samples</li>
+          <li>Upsell and cross-sell to meet sales targets</li>
+          <li>Maintain attractive product displays and assist with stock</li>
+          <li>Deliver excellent customer service and follow up on leads</li>
+        </ul>
+
+        <h3>Compensation</h3>
+        <p>
+          Base salary: R4,000 – R6,000 per month (depending on experience) plus
+          commission on sales (uncapped). Additional bonuses for meeting
+          targets.
+        </p>
+
+        <h3>How to apply</h3>
+        <p class="note">
+          Applications can be sent to
+          <strong>scentedperfumes1@gmail.com</strong>.
+        </p>
+    <script>
+      // lightweight, safe script — won't block page load
+      document.addEventListener("DOMContentLoaded", function () {
+        var msg = document.getElementById("formMessage");
+
+        // show thank-you when FormSubmit redirects back with ?sent=1
+        try {
+          var params = new URLSearchParams(location.search);
+          if (params.get("sent") === "1" && msg) {
+            msg.textContent = "Application sent. Thank you!";
+            msg.className = "status success";
+          }
+        } catch (e) {
+          /* ignore */
+        }
+
+        // warn when opened via file://
+        if (location.protocol === "file:" && msg) {
+          msg.textContent =
+            "Warning: open this page via HTTP to allow FormSubmit to POST.";
+          msg.className = "status error";
+        }
+
+        // simple submit UI: disable button and show "Sending..." but allow native POST
+        var form = document.getElementById("applyForm");
+        if (form) {
+          form.addEventListener("submit", function () {
+            var submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Sending...";
+            }
+            if (msg) {
+              msg.textContent = "Sending application — please wait.";
+              msg.className = "status";
+            }
+            // do not call preventDefault — allow real POST required by FormSubmit
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
