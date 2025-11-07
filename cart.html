@@ -174,10 +174,16 @@
           const qty = Number(item.quantity) || 1;
           subtotal += price * qty;
         }
-        // Always add R100 shipping when there are items
+        // Fixed shipping at R100 (not R60)
         const shipping = cart.length ? 100 : 0;
         const total = subtotal + shipping;
-        return { subtotal, shipping, total };
+
+        // Format numbers to prevent RNaN
+        return {
+          subtotal: Number(subtotal).toFixed(2),
+          shipping: Number(shipping).toFixed(2),
+          total: Number(total).toFixed(2),
+        };
       }
 
       function updateCartDisplay() {
@@ -186,65 +192,31 @@
         list.innerHTML = "";
 
         if (!cart || cart.length === 0) {
-          const li = document.createElement("li");
-          li.className = "empty";
-          li.textContent = "Your cart is empty.";
-          list.appendChild(li);
+          list.innerHTML = "<li class='empty'>Your cart is empty.</li>";
+          // Set zeros when cart is empty
+          document.getElementById("subtotal").textContent = "0.00";
+          document.getElementById("shipping").textContent = "0.00";
+          document.getElementById("total").textContent = "0.00";
         } else {
-          cart.forEach((item, idx) => {
+          // Show items
+          cart.forEach((item) => {
             const li = document.createElement("li");
-
-            const left = document.createElement("div");
-            left.style.display = "flex";
-            left.style.flexDirection = "column";
-
-            const title = document.createElement("strong");
-            title.textContent = item.name || "Item";
-            left.appendChild(title);
-
-            const meta = document.createElement("small");
-            meta.textContent = `${item.quantity || 1} × R${formatCurrency(
-              item.price || 0
-            )}`;
-            left.appendChild(meta);
-
-            const right = document.createElement("div");
-            right.style.display = "flex";
-            right.style.alignItems = "center";
-            right.style.gap = "8px";
-
-            const priceEl = document.createElement("span");
-            const lineTotal =
-              Number(item.price || 0) * Number(item.quantity || 1) || 0;
-            priceEl.textContent = `R${formatCurrency(lineTotal)}`;
-            right.appendChild(priceEl);
-
-            const removeBtn = document.createElement("button");
-            removeBtn.className = "btn btn-muted";
-            removeBtn.textContent = "Remove";
-            removeBtn.addEventListener("click", () => removeItemAt(idx));
-            right.appendChild(removeBtn);
-
-            li.appendChild(left);
-            li.appendChild(right);
-            li.style.display = "flex";
-            li.style.justifyContent = "space-between";
-            li.style.alignItems = "center";
+            const itemTotal = (
+              Number(item.price) * Number(item.quantity)
+            ).toFixed(2);
+            li.innerHTML = `
+              <span>${item.name} × ${item.quantity}</span>
+              <span>R${itemTotal}</span>
+            `;
             list.appendChild(li);
           });
-        }
 
-        // Update totals with shipping
-        const totals = computeTotals(cart);
-        document.getElementById("subtotal").textContent = formatCurrency(
-          totals.subtotal
-        );
-        document.getElementById("shipping").textContent = formatCurrency(
-          totals.shipping
-        );
-        document.getElementById("total").textContent = formatCurrency(
-          totals.total
-        );
+          // Update totals
+          const totals = computeTotals(cart);
+          document.getElementById("subtotal").textContent = totals.subtotal;
+          document.getElementById("shipping").textContent = totals.shipping;
+          document.getElementById("total").textContent = totals.total;
+        }
       }
 
       document.addEventListener("DOMContentLoaded", () => {
