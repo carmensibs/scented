@@ -856,6 +856,45 @@
             <a href="perfumes-for-him.html">Perfumes for Him</a>
           </div>
         </li>
+
+        <!-- Search form -->
+        <li>
+          <form
+            id="searchForm"
+            style="
+              display: flex;
+              gap: 6px;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search perfumes..."
+              aria-label="Search perfumes"
+              style="
+                padding: 6px 8px;
+                border-radius: 6px;
+                border: 1px solid #ddd;
+              "
+            />
+            <button
+              type="submit"
+              style="
+                padding: 6px 10px;
+                border-radius: 6px;
+                border: none;
+                background: #ff6f61;
+                color: #fff;
+                cursor: pointer;
+              "
+            >
+              Search
+            </button>
+          </form>
+        </li>
+
         <li>
           <a href="cart.html" class="cart-link"
             >🛒 View Cart (<span id="cart-count">0</span>)</a
@@ -877,14 +916,35 @@
 
       <!-- main content (hero, banners, featured) -->
       <main>
+        <!-- Search results will appear here -->
+        <section
+          id="searchResults"
+          style="
+            max-width: 1100px;
+            margin: 12px auto;
+            padding: 0 12px;
+            display: none;
+          "
+        >
+          <div
+            id="searchResultsInner"
+            style="
+              background: #fff;
+              padding: 12px;
+              border-radius: 8px;
+              box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+            "
+          ></div>
+        </section>
         <section class="product-showcase" aria-label="Hero">
           <img src="Me.jpg" alt="Scented Perfumes" class="perfume-image" />
           <div class="scent-description" aria-hidden="false">
-            <h2>Blossom Bliss</h2>
+            <h2>Scented Perfumes</h2>
             <p>
-              A delicate fusion of jasmine, vanilla, and sandalwood — Blossom
-              Bliss evokes elegance and warmth. Perfect for day or night, this
-              scent lingers with a soft floral whisper and a creamy finish.
+              Inspired by icons. Designed for individuality. We craft premium,
+              gender-neutral fragrances that echo the world’s most beloved
+              designer scents—reimagined with our own modern twist. Minimal.
+              Memorable. Made to move with you.
             </p>
             <button>SHOP NOW</button>
           </div>
@@ -946,6 +1006,154 @@
         localStorage.setItem("shopCart", JSON.stringify(cart));
         const cartDisplay = document.getElementById("cart-count");
         const addButtons = document.querySelectorAll(".add-to-cart");
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+        const searchResultsSection = document.getElementById("searchResults");
+        const searchResultsInner =
+          document.getElementById("searchResultsInner");
+
+        // Replace the PRODUCTS list and renderSearchResults with exact perfume names
+        const PRODUCTS = [
+          // Perfumes for Her (matches names used on perfumes-for-her.html)
+          { name: "Burberry Her", page: "perfumes-for-her.html" },
+          { name: "Scandal for women", page: "perfumes-for-her.html" },
+          { name: "Pink Chiffon", page: "perfumes-for-her.html" },
+          { name: "Lady Million", page: "perfumes-for-her.html" },
+          { name: "Armani Si", page: "perfumes-for-her.html" },
+          { name: "Avon Faraway", page: "perfumes-for-her.html" },
+          { name: "Carolina Herrera Good Girl", page: "perfumes-for-her.html" },
+          { name: "Chanel No.5", page: "perfumes-for-her.html" },
+          { name: "Jimmy Choo", page: "perfumes-for-her.html" },
+          { name: "YSL Black Opium", page: "perfumes-for-her.html" },
+          { name: "Yardley White Satin", page: "perfumes-for-her.html" },
+          { name: "Victoria Secret", page: "perfumes-for-her.html" },
+
+          // Perfumes for Him (matches names used on perfumes-for-him.html)
+          { name: "Sauvage Dior", page: "perfumes-for-him.html" },
+          { name: "Bvlgari Man", page: "perfumes-for-him.html" },
+          { name: "212 VIP Man", page: "perfumes-for-him.html" },
+          {
+            name: "Christian Dior Sauvage Elixir",
+            page: "perfumes-for-him.html",
+          },
+          { name: "Diesel Bad", page: "perfumes-for-him.html" },
+          { name: "Diesel Only The Brave", page: "perfumes-for-him.html" },
+          { name: "Dunhill Desire Blue", page: "perfumes-for-him.html" },
+          { name: "Givenchy Blue", page: "perfumes-for-him.html" },
+          { name: "Hermes Terre D'Hermes", page: "perfumes-for-him.html" },
+          { name: "Hugo Boss", page: "perfumes-for-him.html" },
+          { name: "Scandal for Men", page: "perfumes-for-him.html" },
+          { name: "Jo Malone Pomegranate Noir", page: "perfumes-for-him.html" },
+
+          // Perfumes for Him (matches names used on perfumes-for-him-more.html)
+          { name: "Tsar Gold", page: "perfumes-for-him-more.html" },
+          {
+            name: "Paco Rabanne One Million Elixir",
+            page: "perfumes-for-him-more.html",
+          },
+          { name: "Tom Ford Noir", page: "perfumes-for-him-more.html" },
+          { name: "Paco Rabanne Invictus", page: "perfumes-for-him-more.html" },
+          { name: "Hugo Boss Orange", page: "perfumes-for-him-more.html" },
+          { name: "Dunhill Desire Black", page: "perfumes-for-him-more.html" },
+          {
+            name: "Christian Dior Homme Intense",
+            page: "perfumes-for-him-more.html",
+          },
+          { name: "Armani Black Code", page: "perfumes-for-him-more.html" },
+
+          // Perfumes for Him (matches names used on perfumes-for-her-more.html)
+          { name: "Coco", page: "perfumes-for-her-more.html" },
+          { name: "DKNY", page: "perfumes-for-her-more.html" },
+          {
+            name: "Elizabeth Arden Red Door",
+            page: "perfumes-for-her-more.html",
+          },
+          {
+            name: "Estee Lauder Beautiful",
+            page: "perfumes-for-her-more.html",
+          },
+          { name: "Fire and Ice", page: "perfumes-for-her-more.html" },
+          { name: "Paco Rabbane Olympea", page: "perfumes-for-her-more.html" },
+          { name: "Hugo Boss Femme", page: "perfumes-for-her-more.html" },
+          {
+            name: "Elizabeth Arden Sunflowers",
+            page: "perfumes-for-her-more.html",
+          },
+        ];
+
+        // Search handler: tokenize query and match against product name tokens (case-insensitive)
+        function renderSearchResults(query) {
+          const q = (query || "").trim().toLowerCase();
+          if (!q) {
+            searchResultsSection.style.display = "none";
+            searchResultsInner.innerHTML = "";
+            return;
+          }
+
+          // split query into tokens to allow multi-word matching
+          const tokens = q.split(/\s+/).filter(Boolean);
+
+          const matches = PRODUCTS.filter((p) => {
+            const nameLower = p.name.toLowerCase();
+            // requirement: every token must appear in the product name
+            return tokens.every((t) => nameLower.includes(t));
+          });
+
+          if (matches.length) {
+            searchResultsInner.innerHTML =
+              `<h3>Search results for "${escapeHtml(query)}"</h3>` +
+              `<ul style="list-style:none;padding:0;margin:8px 0;display:grid;gap:8px;">` +
+              matches
+                .map(
+                  (m) => `
+                <li style="padding:8px;border-radius:6px;border:1px solid #eee;display:flex;justify-content:space-between;align-items:center;">
+                  <span>${escapeHtml(m.name)}</span>
+                  <a href="${
+                    m.page
+                  }" style="background:#ff6f61;color:#fff;padding:6px 10px;border-radius:6px;text-decoration:none;">View</a>
+                </li>
+              `
+                )
+                .join("") +
+              `</ul>`;
+          } else {
+            const contactUrl = `contact.html?product=${encodeURIComponent(
+              query
+            )}`;
+            searchResultsInner.innerHTML = `<h3>No results for "${escapeHtml(
+              query
+            )}"</h3>
+              <p style="margin:6px 0;">This perfume isn't in stock. <a href="${contactUrl}" style="color:#ff6f61;text-decoration:none;">Contact us</a> to ask about it.</p>`;
+          }
+
+          searchResultsSection.style.display = "block";
+          searchResultsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+
+        // simple HTML escape for small strings
+        function escapeHtml(s) {
+          return String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+              }[c])
+          );
+        }
+
+        if (searchForm) {
+          searchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            renderSearchResults(searchInput.value || "");
+          });
+        }
 
         function updateCartCount() {
           let total = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -984,10 +1192,15 @@
         });
 
         updateCartCount();
-
-        // set footer year
-        const year = new Date().getFullYear();
-        document.getElementById("year").textContent = year;
+        // if search query passed via URL (from contact link), prefill and run search
+        const params = new URLSearchParams(location.search);
+        if (params.has("q") || params.has("product")) {
+          const q = params.get("q") || params.get("product") || "";
+          if (q && searchInput) {
+            searchInput.value = q;
+            renderSearchResults(q);
+          }
+        }
       });
     </script>
   </body>
