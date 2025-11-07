@@ -1,21 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Contact Us - Kyla & Co</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Get in touch with Kyla & Co for luxury perfume inquiries."
-    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Thank you — Scented</title>
     <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <style>
+      body {
+        font-family: "Playfair Display", serif;
+        background: linear-gradient(to right, #fff1f2, #ffe4e6);
+        color: #4a4a4a;
+        text-align: center;
+        padding: 100px 20px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #d81b60;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+      }
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+      }
+
+      a {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #d81b60;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      a:hover {
+        background-color: #ad1457;
+      }
+
+      .card {
+        max-width: 720px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        text-align: center;
+      }
+      .btn {
+        background: #ff6f61;
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 12px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Thank You!</h1>
-    <p>Your message has been sent successfully. We'll get back to you soon.</p>
+    <div class="card">
+      <h1>Thank you — order sent</h1>
+      <p>
+        We've sent your order details to the seller. Please make the bank
+        transfer using the reference shown on the payment page.
+      </p>
+      <p>
+        If you don't receive a confirmation from the seller, contact:
+        <a href="mailto:sibscarmen@gmail.com">sibscarmen@gmail.com</a>
+      </p>
+      <a href="index.html" class="btn">Back to shop</a>
+    </div>
+
+    <script>
+      // clear local cart & checkout data after successful submission
+      try {
+        localStorage.removeItem("shopCart");
+      } catch (e) {}
+      try {
+        sessionStorage.removeItem("checkoutData");
+      } catch (e) {}
+    </script>
   </body>
 </html>
