@@ -104,9 +104,8 @@
       <ul id="cart-items"></ul>
 
       <div class="cart-totals">
-        <p>Subtotal: R<span id="subtotal">0.00</span></p>
-        <p>VAT (15%): R<span id="tax">0.00</span></p>
-        <p>Shipping: R<span id="shipping">60.00</span></p>
+        <div>Subtotal: R<span id="subtotal">0.00</span></div>
+        <div>Shipping: R<span id="shipping">0.00</span></div>
         <h3>Total: R<span id="total">0.00</span></h3>
       </div>
 
@@ -175,10 +174,10 @@
           const qty = Number(item.quantity) || 1;
           subtotal += price * qty;
         }
-        const tax = subtotal * 0.15;
-        const shipping = cart.length ? 60 : 0; // match server: flat R60 when items present
-        const total = subtotal + tax + shipping;
-        return { subtotal, tax, shipping, total };
+        // Always add R100 shipping when there are items
+        const shipping = cart.length ? 100 : 0;
+        const total = subtotal + shipping;
+        return { subtotal, shipping, total };
       }
 
       function updateCartDisplay() {
@@ -235,11 +234,11 @@
           });
         }
 
+        // Update totals with shipping
         const totals = computeTotals(cart);
         document.getElementById("subtotal").textContent = formatCurrency(
           totals.subtotal
         );
-        document.getElementById("tax").textContent = formatCurrency(totals.tax);
         document.getElementById("shipping").textContent = formatCurrency(
           totals.shipping
         );
