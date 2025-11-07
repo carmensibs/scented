@@ -183,8 +183,75 @@
     </div>
 
     <script>
-      // Copy the same cart functionality script from perfumes-for-her.html
-      // ...existing script...
+      document.addEventListener("DOMContentLoaded", () => {
+        // Initialize cart from localStorage
+        let cart = [];
+
+        function loadCart() {
+          try {
+            cart = JSON.parse(localStorage.getItem("shopCart")) || [];
+          } catch (e) {
+            console.error("Error loading cart:", e);
+            cart = [];
+          }
+        }
+
+        function updateButtonCount(button) {
+          const name = button.getAttribute("data-name");
+          const item = cart.find((i) => i.name === name);
+          const countSpan = button.querySelector(".item-count");
+          if (countSpan) {
+            countSpan.textContent = item ? item.quantity : 0;
+          }
+        }
+
+        function updateAllCounts() {
+          document.querySelectorAll(".add-to-cart").forEach(updateButtonCount);
+        }
+
+        // Add click handlers to all "Add to Cart" buttons
+        document.querySelectorAll(".add-to-cart").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const name = btn.getAttribute("data-name");
+            const price = parseFloat(btn.getAttribute("data-price"));
+
+            loadCart(); // Reload cart in case it was modified elsewhere
+
+            let item = cart.find((i) => i.name === name);
+            if (item) {
+              item.quantity = (parseInt(item.quantity) || 0) + 1;
+            } else {
+              cart.push({
+                name: name,
+                price: price,
+                quantity: 1,
+              });
+            }
+
+            // Save updated cart
+            localStorage.setItem("shopCart", JSON.stringify(cart));
+
+            // Update this button's count
+            updateButtonCount(btn);
+
+            // Visual feedback
+            btn.classList.add("added");
+            setTimeout(() => btn.classList.remove("added"), 1000);
+          });
+        });
+
+        // Listen for cart changes from other pages
+        window.addEventListener("storage", (e) => {
+          if (e.key === "shopCart") {
+            loadCart();
+            updateAllCounts();
+          }
+        });
+
+        // Initial load and update
+        loadCart();
+        updateAllCounts();
+      });
     </script>
   </body>
 </html>
