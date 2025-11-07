@@ -6,108 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <style>
-      body {
-        font-family: Inter, sans-serif;
-        margin: 0;
-        padding: 20px;
-        background: #f8f8fb;
-        color: #222;
-      }
-      h1 {
-        text-align: center;
-        font-family: "Playfair Display", serif;
-        margin-bottom: 8px;
-      }
       .checkout-wrapper {
-        max-width: 920px;
+        max-width: 1100px;
         margin: 20px auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         display: grid;
         grid-template-columns: 1fr 360px;
         gap: 20px;
       }
       .checkout-form {
-        padding: 8px 4px;
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 12px;
-      }
-      .field label {
-        font-size: 13px;
-        margin-bottom: 6px;
-        color: #444;
-      }
-      .field input {
-        padding: 10px 12px;
-        border-radius: 8px;
-        border: 1px solid #e6e6ee;
-        font-size: 14px;
-      }
-      .btn {
-        padding: 10px 18px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-      }
-      .btn-primary {
-        background: #ff6f61;
-        color: #fff;
-        width: 100%;
-      }
-      .summary {
-        background: #fff7f7;
-        padding: 14px;
-        border-radius: 8px;
-        border: 1px solid #ffecec;
-      }
-      .cart-items {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 12px 0;
-        max-height: 320px;
-        overflow: auto;
-      }
-      .cart-items li {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #f0ecec;
-      }
-      .note {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 8px;
-      }
-      .eft-panel {
-        display: none;
-        background: #fbfff8;
-        border: 1px solid #e6f6e9;
-        padding: 14px;
-        border-radius: 8px;
-        margin-top: 12px;
-      }
-      .small {
-        font-size: 0.95rem;
-        color: #444;
-      }
-      .copy-btn {
-        padding: 6px 10px;
-        border-radius: 6px;
-        border: 1px solid #ddd;
         background: #fff;
-        cursor: pointer;
+        padding: 20px;
+        border-radius: 8px;
       }
-      @media (max-width: 860px) {
-        .checkout-wrapper {
-          grid-template-columns: 1fr;
-        }
-      }
+      .field { margin-bottom: 15px; }
+      .field label { display: block; margin-bottom: 6px; }
+      .field input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+      .btn { background: #ff6f61; color: #fff; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; width: 100%; }
+      .order-summary { background: #fff; padding: 20px; border-radius: 8px; }
+      .cart-items { list-style: none; padding: 0; margin: 0 0 20px 0; }
+      .cart-items li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+      @media (max-width: 768px) { .checkout-wrapper { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -115,280 +33,120 @@
 
     <div class="checkout-wrapper">
       <div class="checkout-form">
-        <p class="note">
-          Enter your details. After pressing "Pay" you'll see our bank account
-          details to complete an EFT and a small form to confirm payment
-        </p>
-
-        <div class="field">
-          <label for="first-name">First name</label>
-          <input id="first-name" type="text" placeholder="Kyla" />
-        </div>
-
-        <div class="field">
-          <label for="last-name">Last name</label>
-          <input id="last-name" type="text" placeholder="Smith" />
-        </div>
-
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="you@example.com" />
-        </div>
-
-        <div class="field">
-          <label for="phone">Phone (optional)</label>
-          <input id="phone" type="tel" placeholder="+27 82 000 0000" />
-        </div>
-
-        <div style="margin-top: 12px">
-          <button id="pay-btn" class="btn btn-primary">
-            Pay / View Bank Details
-          </button>
-        </div>
-
-        <div
-          id="checkout-msg"
-          class="note"
-          style="color: #b00; margin-top: 12px"
-        ></div>
-
-        <!-- EFT panel (shown after validation) -->
-        <div id="eftPanel" class="eft-panel" aria-hidden="true">
-          <h3 style="margin-top: 0">Bank transfer (EFT) details</h3>
-          <p class="small">
-            Please transfer the total amount to the account below. Use the
-            reference shown so we can match your payment.
-          </p>
-
-          <div style="margin: 10px 0; display: grid; gap: 6px">
-            <div><strong>Account name:</strong> Scented Perfumes</div>
-            <div><strong>Bank:</strong> Example Bank</div>
-            <div>
-              <strong>Account no:</strong> <span id="acctNum">1234567890</span>
-              <button class="copy-btn" data-copy="#acctNum">Copy</button>
-            </div>
-            <div><strong>Branch code:</strong> 000000</div>
-            <div>
-              <strong>Reference:</strong> <span id="eftRef"></span>
-              <button class="copy-btn" id="copyRef">Copy</button>
-            </div>
+        <h2>Shipping Information</h2>
+        <form id="shippingForm" onsubmit="handleSubmit(event)">
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
           </div>
 
-          <hr
-            style="border: none; border-top: 1px solid #e6f1ea; margin: 12px 0"
-          />
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+          </div>
 
-          <p class="small">
-            After making the transfer, confirm below by submitting the EFT
-            confirmation form. Attach proof of payment (optional). We'll receive
-            your submission by email and confirm manually.
-          </p>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
 
-          <form
-            id="eftForm"
-            method="POST"
-            action="https://formsubmit.co/sibscarmen@gmail.com"
-            enctype="multipart/form-data"
-            style="margin-top: 10px"
-          >
-            <input
-              type="hidden"
-              name="_subject"
-              value="EFT payment confirmation"
-            />
-            <input type="hidden" name="order_ref" id="order_ref_field" />
-            <input type="hidden" name="amount" id="amount_field" />
-            <div class="field">
-              <label for="eft_name">Payer full name</label>
-              <input id="eft_name" name="name" type="text" required />
-            </div>
-            <div class="field">
-              <label for="eft_email">Email</label>
-              <input id="eft_email" name="email" type="email" required />
-            </div>
-            <div class="field">
-              <label for="eft_phone">Phone</label>
-              <input id="eft_phone" name="phone" type="tel" />
-            </div>
-            <div class="field">
-              <label for="eft_reference">Bank reference used</label>
-              <input
-                id="eft_reference"
-                name="bank_reference"
-                type="text"
-                placeholder="e.g. SMITH-163045"
-              />
-            </div>
-            <div class="field">
-              <label for="eft_proof">Proof of payment (optional)</label>
-              <input
-                id="eft_proof"
-                name="proof"
-                type="file"
-                accept=".jpg,.png,.pdf"
-              />
-            </div>
+          <div class="field">
+            <label for="address">Delivery Address</label>
+            <input type="text" id="address" name="address" required>
+          </div>
 
-            <div
-              style="
-                display: flex;
-                gap: 10px;
-                align-items: center;
-                margin-top: 8px;
-              "
-            >
-              <button type="submit" class="btn btn-primary">
-                Submit Confirmation
-              </button>
-              <button
-                type="button"
-                id="openMailFallback"
-                class="btn"
-                style="background: #444; color: #fff"
-              >
-                Open Email Client
-              </button>
-              <div id="eftMsg" style="margin-left: 8px; color: #0a7a3b"></div>
-            </div>
-          </form>
-        </div>
+          <div class="field">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required>
+          </div>
+
+          <div class="field">
+            <label for="postal">Postal Code</label>
+            <input type="text" id="postal" name="postal" required>
+          </div>
+
+          <button type="submit" class="btn">Continue to Payment</button>
+        </form>
       </div>
 
-      <div>
-        <div class="summary">
-          <h3>Order summary</h3>
-          <ul id="checkout-cart" class="cart-items"></ul>
-
-          <div class="totals">
-            <p>Subtotal: R<span id="subtotal">0.00</span></p>
-            <p>VAT (15%): R<span id="tax">0.00</span></p>
-            <p>Shipping: R<span id="shipping">60.00</span></p>
-            <h3>Total: R<span id="total">0.00</span></h3>
-          </div>
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <ul id="checkout-cart" class="cart-items"></ul>
+        <div class="totals">
+          <p>Subtotal: R<span id="subtotal">0.00</span></p>
+          <p>Shipping: R<span id="shipping">100.00</span></p>
+          <h3>Total: R<span id="total">0.00</span></h3>
         </div>
       </div>
     </div>
 
     <script>
-      const STORAGE_KEY = "shopCart";
-
-      function formatCurrency(n) {
-        return Number(n).toFixed(2);
+      function formatCurrency(num) {
+        return Number(num).toFixed(2);
       }
 
-      function computeTotals(cart) {
-        let subtotal = 0;
-        for (const item of cart) {
-          const price = Number(item.price) || 0;
-          const qty = Number(item.quantity) || 1;
-          subtotal += price * qty;
-        }
-        const shipping = cart.length ? 60 : 0;
-        const total = subtotal + shipping;
-        return { subtotal, shipping, total };
-      }
+      function handleSubmit(event) {
+        event.preventDefault();
+        
+        // Get form data
+        const formData = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          address: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          postal: document.getElementById('postal').value
+        };
 
-      function getCartFromSessionOrStorage() {
-        try {
-          const s = sessionStorage.getItem("checkoutData");
-          if (s) {
-            const parsed = JSON.parse(s);
-            if (parsed && parsed.cart) return parsed.cart;
+        // Save shipping info and cart data to session storage
+        sessionStorage.setItem('shippingInfo', JSON.stringify(formData));
+        sessionStorage.setItem('checkoutData', JSON.stringify({
+          cart: JSON.parse(localStorage.getItem('shopCart')) || [],
+          totals: {
+            subtotal: document.getElementById('subtotal').textContent,
+            shipping: document.getElementById('shipping').textContent,
+            total: document.getElementById('total').textContent
           }
-        } catch {}
-        try {
-          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        } catch {
-          return [];
-        }
+        }));
+
+        // Redirect to payment page
+        window.location.href = 'payment-details.html';
       }
 
-      function renderCart(cart) {
+      function updateCheckoutDisplay() {
+        const cart = JSON.parse(localStorage.getItem("shopCart")) || [];
         const list = document.getElementById("checkout-cart");
         list.innerHTML = "";
-        if (!cart || cart.length === 0) {
-          const li = document.createElement("li");
-          li.textContent = "Cart is empty.";
-          list.appendChild(li);
-          return;
+
+        let subtotal = 0;
+
+        if (cart.length === 0) {
+          list.innerHTML = "<li>Cart is empty</li>";
+        } else {
+          cart.forEach(item => {
+            const quantity = Number(item.quantity) || 1;
+            const price = Number(item.price) || 0;
+            const itemTotal = price * quantity;
+            subtotal += itemTotal;
+
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <span>${item.name} × ${quantity}</span>
+              <span>R${formatCurrency(itemTotal)}</span>
+            `;
+            list.appendChild(li);
+          });
         }
-        cart.forEach((it) => {
-          const li = document.createElement("li");
-          const left = document.createElement("div");
-          left.textContent = `${it.name || "Item"} (${it.quantity || 1})`;
-          const right = document.createElement("div");
-          const line = (Number(it.price) || 0) * (Number(it.quantity) || 1);
-          right.textContent = `R${formatCurrency(line)}`;
-          li.appendChild(left);
-          li.appendChild(right);
-          list.appendChild(li);
-        });
+
+        const shipping = cart.length > 0 ? 100 : 0;
+        const total = subtotal + shipping;
+
+        document.getElementById("subtotal").textContent = formatCurrency(subtotal);
+        document.getElementById("shipping").textContent = formatCurrency(shipping);
+        document.getElementById("total").textContent = formatCurrency(total);
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const cart = getCartFromSessionOrStorage();
-        renderCart(cart);
-        const totals = computeTotals(cart);
-        document.getElementById("subtotal").textContent = formatCurrency(
-          totals.subtotal
-        );
-        document.getElementById("tax").textContent = formatCurrency(totals.tax);
-        document.getElementById("shipping").textContent = formatCurrency(
-          totals.shipping
-        );
-        document.getElementById("total").textContent = formatCurrency(
-          totals.total
-        );
-
-        // Prefill email if available
-        try {
-          const s = sessionStorage.getItem("checkoutData");
-          if (s) {
-            const parsed = JSON.parse(s);
-            if (parsed && parsed.email)
-              document.getElementById("email").value = parsed.email;
-          }
-        } catch {}
-
-        const payBtn = document.getElementById("pay-btn");
-
-        payBtn.addEventListener("click", () => {
-          const first = document.getElementById("first-name").value.trim();
-          const last = document.getElementById("last-name").value.trim();
-          const email = document.getElementById("email").value.trim();
-
-          if (!first || !last) {
-            document.getElementById("checkout-msg").textContent =
-              "Please provide your full name.";
-            return;
-          }
-          if (!email) {
-            document.getElementById("checkout-msg").textContent =
-              "Please provide an email for confirmation.";
-            return;
-          }
-
-          // Build order object, save to sessionStorage and redirect to payment details page
-          const timestamp = Date.now().toString().slice(-6);
-          const ref = `${last.toUpperCase()}-${timestamp}`;
-          const checkoutData = {
-            cart,
-            totals,
-            customer: {
-              first,
-              last,
-              email,
-              phone: document.getElementById("phone").value || "",
-            },
-            orderRef: ref,
-          };
-
-          sessionStorage.setItem("checkoutData", JSON.stringify(checkoutData));
-
-          // go to separate page that shows only payment details + order summary
-          window.location.href = "payment-details.html";
-        });
-      });
+      document.addEventListener("DOMContentLoaded", updateCheckoutDisplay);
     </script>
   </body>
 </html>
